@@ -63,3 +63,42 @@ def build_transform(is_train, args):
     t.append(transforms.ToTensor())
     t.append(transforms.Normalize(mean, std))
     return transforms.Compose(t)
+
+
+from torch.utils.data import Dataset, DataLoader
+from PIL import Image
+import os
+import pandas as pd
+import torch
+
+class RegressionImageDataset(Dataset):
+    def __init__(self, img_dir, label_file, transform=None):
+        """
+        img_dir: 影像的路徑
+        label_file: 含有影像名稱和對應回歸值的標籤文件
+        transform: 影像的轉換操作
+        """
+        self.img_dir = img_dir
+        self.transform = transform
+
+        self.img_labels = pd.read_csv(label_file)
+
+    def __len__(self):
+        return len(self.img_labels)
+
+    def __getitem__(self, idx):
+        folder_name = f"mesh{int(self.img_labels.iloc[idx]['Unnamed: 0'])}dir"
+        folder_path = os.path.join(self.img_dir, folder_name)
+        
+        # 加載影像，這裡假設每個資料夾下有一個影像 'image.png'
+        img_path = os.path.join(folder_path, 'microstructure.png')
+        image = Image.open(img_path).convert("RGB")
+        
+        # 提取 'Vf_real' 作為回歸標籤
+        label = torch.tensor(self.img_labels.iloc[idx]['Vf_real'] / 100, dtype=torch.float16)
+        
+        if self.transform:
+            image = self.transform(image)
+        
+        
+        return image, label

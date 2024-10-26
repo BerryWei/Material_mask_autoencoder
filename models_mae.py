@@ -108,16 +108,16 @@ class MaskedAutoencoderViT(nn.Module):
 
     def unpatchify(self, x):
         """
-        x: (N, L, patch_size**2 *3)
-        imgs: (N, 3, H, W)
+        x: (N, L, patch_size**2 *1)
+        imgs: (N, 1, H, W)
         """
         p = self.patch_embed.patch_size[0]
         h = w = int(x.shape[1]**.5)
         assert h * w == x.shape[1]
         
-        x = x.reshape(shape=(x.shape[0], h, w, p, p, 3))
+        x = x.reshape(shape=(x.shape[0], h, w, p, p, 1))
         x = torch.einsum('nhwpqc->nchpwq', x)
-        imgs = x.reshape(shape=(x.shape[0], 3, h * p, h * p))
+        imgs = x.reshape(shape=(x.shape[0], 1, h * p, h * p))
         return imgs
 
     def random_masking(self, x, mask_ratio):
@@ -168,6 +168,38 @@ class MaskedAutoencoderViT(nn.Module):
         x = self.norm(x)
 
         return x, mask, ids_restore
+    
+    def forward_features(self, x, global_pool=True, mask_ratio=0):
+
+        if x.shape[1] == 3:
+            x = x.mean(dim=1, keepdim=True)  # 將 RGB 轉換為灰階
+        # embed patches
+        x = self.patch_embed(x)
+
+        # add pos embed w/o cls token
+        x = x + self.pos_embed[:, 1:, :]
+
+        # masking: length -> length * mask_ratio
+        x, mask, ids_restore = self.random_masking(x, mask_ratio=mask_ratio)
+
+        # append cls token
+        cls_token = self.cls_token + self.pos_embed[:, :1, :]
+        cls_tokens = cls_token.expand(x.shape[0], -1, -1)
+        x = torch.cat((cls_tokens, x), dim=1)
+
+        # apply Transformer blocks
+        for blk in self.blocks:
+            x = blk(x)
+        x = self.norm(x)
+
+        if global_pool:
+            x = x[:, 1:, :].mean(dim=1)  # global pool without cls token
+            outcome = x
+        else:
+            x = self.norm(x)
+            outcome = x[:, 0]
+
+        return outcome
 
     def forward_decoder(self, x, ids_restore):
         # embed tokens
@@ -215,7 +247,7 @@ class MaskedAutoencoderViT(nn.Module):
 
     def forward(self, imgs, mask_ratio=0.75):
         latent, mask, ids_restore = self.forward_encoder(imgs, mask_ratio)
-        pred = self.forward_decoder(latent, ids_restore)  # [N, L, p*p*3]
+        pred = self.forward_decoder(latent, ids_restore)  # [N, L, p*p*1]
         loss = self.forward_loss(imgs, pred, mask)
         return loss, pred, mask
 
