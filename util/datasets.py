@@ -39,7 +39,7 @@ import pandas as pd
 import torch
 
 class RegressionImageDataset(Dataset):
-    def __init__(self, img_dir, label_file, transform=None, target_col_name='ERROR'):
+    def __init__(self, img_dir, label_file, transform=None, target_col_name='ERROR', numDataset=None, seed=42):
         """
         img_dir: 影像的路徑
         label_file: 含有影像名稱和對應回歸值的標籤文件
@@ -49,6 +49,7 @@ class RegressionImageDataset(Dataset):
         self.transform = transform
         self.target_col_name = target_col_name
         self.img_labels = pd.read_csv(label_file)
+        self.img_labels = self.img_labels.sample(n=numDataset, random_state=seed)
 
     def __len__(self):
         return len(self.img_labels)

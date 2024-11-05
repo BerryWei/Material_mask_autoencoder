@@ -8,7 +8,7 @@
 # DeiT: https://github.com/facebookresearch/deit
 # BEiT: https://github.com/microsoft/unilm/tree/master/beit
 # --------------------------------------------------------
-
+import sys
 import argparse
 import datetime
 import json
@@ -147,7 +147,9 @@ def get_args_parser():
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--resume', default='',
                         help='resume from checkpoint')
-
+    parser.add_argument('--numDataset', default=1, type=int,
+                        help='number of the classification types')
+    
     parser.add_argument('--start_epoch', default=0, type=int, metavar='N',
                         help='start epoch')
     parser.add_argument('--eval', action='store_true',
@@ -197,14 +199,26 @@ def main(args):
             # transforms.CenterCrop(224),
             transforms.ToTensor(),
             ])
+    numTrainDataset = int(args.numDataset / 5 *4)
+    numValidDataset = int(args.numDataset / 5 )
+
     dataset_train = RegressionImageDataset(img_dir=os.path.join(args.data_path, 'train'), 
                                            label_file=os.path.join(args.data_path, 'train', 'revised_descriptors.csv') ,
                                            transform=transform_train,
+                                           numDataset=numTrainDataset,
                                            target_col_name=args.target_col_name)
+    
+    
     dataset_val = RegressionImageDataset(os.path.join(args.data_path, 'valid'), 
                                          label_file=os.path.join(args.data_path, 'valid', 'revised_descriptors.csv') ,
                                          transform=transform_val,
+                                         numDataset=numValidDataset,
                                          target_col_name=args.target_col_name)
+
+
+
+    print('len(dataset_train)=', len(dataset_train))
+    print('len(dataset_valid)=', len(dataset_val))
 
     if args.distributed == True:  # args.distributed:
         num_tasks = misc.get_world_size()
@@ -414,4 +428,14 @@ if __name__ == '__main__':
     args = args.parse_args()
     if args.output_dir:
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
-    main(args)
+
+    log_file_path = os.path.join(args.output_dir, 'cout.txt')
+
+    original_stdout = sys.stdout
+    sys.stdout = open(log_file_path, 'w+', encoding='utf-8')  # 使用 UTF-8 編碼
+
+    try:
+        main(args)
+    finally:
+        sys.stdout.close()
+        sys.stdout = original_stdout

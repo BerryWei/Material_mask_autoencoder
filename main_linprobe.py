@@ -80,10 +80,13 @@ def get_args_parser():
                         help='dataset path')
     parser.add_argument('--nb_classes', default=1, type=int,
                         help='number of the classification types')
+    parser.add_argument('--numDataset', default=1, type=int,
+                        help='number of the classification types')
+    
 
-    parser.add_argument('--output_dir', default='./output_dir/linprobe_circular_mse_gp',
+    parser.add_argument('--output_dir', default='./output_dir/linprobe_circular_test',
                         help='path where to save, empty for no saving')
-    parser.add_argument('--log_dir', default='./output_dir/linprobe_circular_mse_gp',
+    parser.add_argument('--log_dir', default='./output_dir/linprobe_circular_test',
                         help='path where to tensorboard log')
     parser.add_argument('--device', default='cuda',
                         help='device to use for training / testing')
@@ -147,19 +150,26 @@ def main(args):
             # transforms.CenterCrop(224),
             transforms.ToTensor(),
             ])
+    numTrainDataset = int(args.numDataset / 5 *4)
+    numValidDataset = int(args.numDataset / 5 )
+
     dataset_train = RegressionImageDataset(img_dir=os.path.join(args.data_path, 'train'), 
                                            label_file=os.path.join(args.data_path, 'train', 'revised_descriptors.csv') ,
                                            transform=transform_train,
+                                           numDataset=numTrainDataset,
                                            target_col_name=args.target_col_name)
+    
+    
     dataset_val = RegressionImageDataset(os.path.join(args.data_path, 'valid'), 
                                          label_file=os.path.join(args.data_path, 'valid', 'revised_descriptors.csv') ,
                                          transform=transform_val,
+                                         numDataset=numValidDataset,
                                          target_col_name=args.target_col_name)
 
 
 
-    print(dataset_train)
-    print(dataset_val)
+    print('len(dataset_train)=', len(dataset_train))
+    print('len(dataset_valid)=', len(dataset_val))
 
     if args.distributed == True:  # args.distributed:
         num_tasks = misc.get_world_size()
