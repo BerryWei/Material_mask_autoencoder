@@ -7,14 +7,14 @@ import matplotlib.cm as cm
 # 定義不同 mask ratio 的路徑
 base_dir = "D:/Material_mask_autoencoder/output_dir/"
 ratios = ["010", "015", "020", "025", "030", "035", "040", "045", "050", "055", "060", "065", "070", "075", "080", "085", "090", "095"]
-components = ["Vf_real","C00", "C11", "C22"]
+components = ["C00", "C11", "C22"]
 # components = ["Vf_real", "C11", "C22"]
-labels = ["volume fraction", "$\overline{C}_{1111}$", "$\overline{C}_{2222}$", "$\overline{C}_{1212}$"]
+labels = ["$\overline{C}_{1111}$", "$\overline{C}_{2222}$", "$\overline{C}_{1212}$"]
 # 保存為 PDF 和 TIFF 文件
 output_dir = r"D:\Material_mask_autoencoder\results\pretrained_circle\c2c_finetune"
 os.makedirs(output_dir, exist_ok=True)  # 確保目錄存在
 
-
+N_dataset = 5000
 
 # 用於存儲數據
 data = {comp: [] for comp in components}
@@ -24,7 +24,7 @@ mask_ratios = []
 for ratio in ratios:
     mask_ratios.append(int(ratio))
     for comp in components:
-        file_path = os.path.join(base_dir, f"c2c_finetune_circular_mr{ratio}_cls_{comp}/log.txt")
+        file_path = os.path.join(base_dir, f"c2c_{N_dataset}_finetune_circular_mr{ratio}_cls_{comp}/log.txt")
         with open(file_path, "r") as f:
             for line in f:
                 last_epoch_data = json.loads(line)
@@ -34,7 +34,7 @@ for ratio in ratios:
 # A single column width measures 88 mm and a double column width measures 180 mm
 # Figures are best prepared at a width of 90 mm (single column) and 180 mm (double column) with a maximum height of 170mm.
 
-fig, axs = plt.subplots(nrows=4, figsize=(18.0 / 2.54, 18.0 / 2.54 * 2 / 3), dpi=300)
+fig, axs = plt.subplots(nrows=3, figsize=(18.0 / 2.54, 18.0 / 2.54 * 2 / 3), dpi=300)
 
 # 子圖的設置
 for idx, (comp, ax, label) in enumerate(zip(components, axs, labels)):

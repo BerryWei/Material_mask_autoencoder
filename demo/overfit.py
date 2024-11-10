@@ -6,7 +6,7 @@ import numpy as np
 
 # 定義不同 mask ratio 的路徑
 directories = {
-    "w/ BN;w/ DA": "D:/Material_mask_autoencoder/output_dir/linprobe_circular_mr075_cls_Vf_real/log.txt",
+    "w/ BN;w/ DA": "D:/Material_mask_autoencoder/output_dir/c2c_5000_linprobe_circular_mr075_cls_Vf_real/log.txt",
     "w/o BN;w/o DA": "D:/Material_mask_autoencoder/output_dir/linprobe_circular_mr075_cls_Vf_real_NoBN_NoDataAug/log.txt",
     "w/o BN;w/ DA": "D:/Material_mask_autoencoder/output_dir/linprobe_circular_mr075_cls_Vf_real_NoBN_wDataAug/log.txt",
     "w/ BN;w/o DA": "D:/Material_mask_autoencoder/output_dir/linprobe_circular_mr075_cls_Vf_real_wBN_woDataAug/log.txt",

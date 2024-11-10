@@ -147,7 +147,7 @@ def get_args_parser():
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('--resume', default='',
                         help='resume from checkpoint')
-    parser.add_argument('--numDataset', default=1, type=int,
+    parser.add_argument('--numDataset', default=100, type=int,
                         help='number of the classification types')
     
     parser.add_argument('--start_epoch', default=0, type=int, metavar='N',

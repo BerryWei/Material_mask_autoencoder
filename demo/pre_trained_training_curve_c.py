@@ -44,18 +44,22 @@ for (label, file_path), color in zip(directories.items(), colors):
             epochs.append(data["epoch"])
             train_losses.append(data["train_loss"])
     
-    plt.plot(epochs, train_losses, label=f"{label} Masking", color=color)
+    plt.plot(epochs, train_losses, label=f"{label} Masking", color=color, linewidth=1, linestyle='-', alpha=0.8)
 
 # 圖形設定
 plt.xlabel("Epoch", fontsize=8, fontname="Arial")
 plt.ylabel("Training Loss", fontsize=8, fontname="Arial")
 plt.yscale("log")
 #plt.title("Training Curves (Pre-trained on Circle Inclusion)", fontsize=7, fontname="Arial")
-plt.legend(title="Masking Ratio (%)", fontsize=5, title_fontsize=7, loc='upper right')
-plt.xticks(fontsize=7)
-plt.yticks(fontsize=7)
-plt.grid(True, linestyle='--', linewidth=0.5)
-plt.tight_layout()
+# plt.legend(title="Masking Ratio (%)", fontsize=5, title_fontsize=7, loc='upper right')
+plt.xticks(fontsize=7, fontname="Arial")
+plt.yticks(fontsize=7, fontname="Arial")
+plt.grid(True, linestyle='--', linewidth=0.5, alpha=0.7)
+
+
+# 將圖例從子圖中移出，放置在整個圖表右側
+plt.legend(title="Masking Ratio (%)", fontsize=6, title_fontsize=8, loc='center left', bbox_to_anchor=(1.0, 0.5), frameon=False, labelspacing=1.3)
+
 
 # 保存為 PDF 和 TIFF 文件
 output_dir = r"D:/Material_mask_autoencoder/results/pretrained_circle"
