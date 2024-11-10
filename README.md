@@ -125,7 +125,7 @@ python main_linprobe.py \
 To perform end-to-end fine-tuning, run:
 
 ```bash
-python main_linprobe.py \
+python main_finetune.py \
     --data_path /path/to/downstream_dataset \
     --finetune /path/to/pretrained_mmae/checkpoint-399.pth \
     --output_dir /path/to/output_dir \
@@ -134,11 +134,6 @@ python main_linprobe.py \
     --numDataset NUM_DATASET \
     --target_col_name TARGET_COLUMN
 ```
-
-**Notes:**
-
-- Ensure that the script is set up to allow gradient updates to all encoder layers for fine-tuning.
-- Modify the script or configurations if necessary to perform end-to-end fine-tuning.
 
 ### Partial Fine-Tuning
 
