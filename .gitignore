@@ -120,3 +120,11 @@ pip-delete-this-directory.txt
 circle/*
 
 output_dir/*
+
+results/
+circle_patch_figs_demo/*
+bash_script/*
+circle_patch_figs_real/*
+demo/*
+inclusion_patch_figs_demo/*
+inclusion_patch_figs_real/*
