@@ -4,6 +4,19 @@
 
 This repository contains the code and instructions for training and evaluating the Masked Material Autoencoder (MMAE) as described in the paper "Foundation Model for Composite Materials Using Masked Autoencoders". The MMAE is used for self-supervised pre-training on composite material microstructures and then fine-tuned or used in linear probing for downstream tasks such as predicting homogenized stiffness components.
 
+
+## Architecture
+
+Below is the architecture of the MMAE model:
+
+![Model Architecture](figs/arch.png)
+
+## Reconstruction Example
+
+Here is an example of the reconstructed microstructure from the MMAE model:
+
+![Reconstruction Result](figs/reconstruction.png)
+
 ## Necessary Packages and Versions
 
 To run the code, you'll need the following packages:
@@ -38,8 +51,6 @@ fsspec==2023.6.0
 
 ## Stage 1: MMAE Pre-Training
 
-The pre-training script `main_pretrain.py` is located in the `scripts` directory.
-
 To pre-train the MMAE, run:
 
 ```bash
@@ -66,14 +77,12 @@ python main_pretrain.py \
 **Notes:**
 
 - You can overwrite configurations by passing arguments with the corresponding key names.
-- We use [Weights & Biases (Wandb)](https://wandb.ai/) to monitor the training process and visualize masked reconstruction.
-- Outputs, including checkpoints, are stored in the specified `--output_dir`.
+- All stdout messages and including checkpoints are stored in the specified `--output_dir`.
 
 ## Stage 2: Transfer Learning
 
 ### Linear Probing
 
-The linear probing script `main_linprobe.py` is located in the `scripts` directory.
 
 To perform linear probing, run:
 
@@ -94,9 +103,9 @@ python main_linprobe.py \
 - `--finetune`: Path to the pre-trained MMAE checkpoint.
 - `--output_dir`: Directory to save outputs and logs.
 - `--log_dir`: Directory for logging.
-- `--cls_token`: Use the [CLS] token for representation.
+- `--cls_token`: Use the [CLS] token for embedding.
 - `--numDataset`: Number of data samples to use.
-- `--target_col_name`: The target column name in the dataset (e.g., `C00`, `C11`, `C12`).
+- `--target_col_name`: The target column name in the dataset (e.g., `C1111`, `C2222`, `C1212`).
 
 **Example:**
 
@@ -108,7 +117,7 @@ python main_linprobe.py \
     --log_dir ./logs/linear_probing \
     --cls_token \
     --numDataset 5000 \
-    --target_col_name C00
+    --target_col_name C1111
 ```
 
 ### End-to-End Fine-Tuning
@@ -172,44 +181,5 @@ python main_finetune.py \
     --num_tail_blocks 2 \
     --numDataset 5000 \
     --num_workers 2 \
-    --target_col_name C00
+    --target_col_name C1111
 ```
-
-## Additional Information
-
-- **Scripts and Configurations**
-
-  - The scripts are designed for flexibility. Adjust hyperparameters as needed.
-  - The `--cls_token` option specifies the use of the [CLS] token as the input representation.
-
-- **Monitoring Training**
-
-  - We use Wandb for experiment tracking. Set up Wandb or modify the code if using a different tracking system.
-
-- **Data Paths**
-
-  - Ensure all data paths provided to the scripts are correct.
-  - Adjust paths according to your directory structure.
-
-## Dataset Structure
-
-The datasets consist of microstructure images and associated descriptors. They are organized with `train` and `valid` folders, each containing subdirectories (`mesh0dir`, `mesh1dir`, etc.) and a `revised_descriptors.csv` file.
-
-Example directory structure:
-
-```
-downstream_short_fiber/
-  train/
-    mesh0dir/
-    mesh1dir/
-    ...
-    revised_descriptors.csv
-  valid/
-    mesh0dir/
-    mesh1dir/
-    ...
-    revised_descriptors.csv
-```
-
-- **`meshXdir/`**: Directory containing data for sample X.
-- **`revised_descriptors.csv`**: CSV file with descriptors and homogenized stiffness components.
