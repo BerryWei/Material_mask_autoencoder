@@ -128,3 +128,8 @@ circle_patch_figs_real/*
 demo/*
 inclusion_patch_figs_demo/*
 inclusion_patch_figs_real/*
+saliency_map_lp.py
+saliency_map_ft.py
+mask_plotting_inclusion.py
+mask_plotting_circle.py
+main_tSNE.py
