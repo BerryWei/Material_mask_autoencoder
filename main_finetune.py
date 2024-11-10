@@ -203,14 +203,14 @@ def main(args):
     numValidDataset = int(args.numDataset / 5 )
 
     dataset_train = RegressionImageDataset(img_dir=os.path.join(args.data_path, 'train'), 
-                                           label_file=os.path.join(args.data_path, 'train', 'revised_descriptors.csv') ,
+                                           label_file=os.path.join(args.data_path, 'train', 'descriptors.csv') ,
                                            transform=transform_train,
                                            numDataset=numTrainDataset,
                                            target_col_name=args.target_col_name)
     
     
     dataset_val = RegressionImageDataset(os.path.join(args.data_path, 'valid'), 
-                                         label_file=os.path.join(args.data_path, 'valid', 'revised_descriptors.csv') ,
+                                         label_file=os.path.join(args.data_path, 'valid', 'descriptors.csv') ,
                                          transform=transform_val,
                                          numDataset=numValidDataset,
                                          target_col_name=args.target_col_name)
