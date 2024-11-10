@@ -9,13 +9,13 @@ This repository contains the code and instructions for training and evaluating t
 
 Below is the architecture of the MMAE model:
 
-![Model Architecture](figs/arch.png)
+<img src="figs/arch.png" alt="Model Architecture" width="600"/>
 
 ## Reconstruction Example
 
 Here is an example of the reconstructed microstructure from the MMAE model:
 
-![Reconstruction Result](figs/reconstruction.png)
+<img src="figs/reconstruction.png" alt="Reconstruction Result" width="600"/>
 
 ## Necessary Packages and Versions
 
