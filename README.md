@@ -35,7 +35,7 @@ joblib==1.2.0
 fsspec==2023.6.0
 ```
 
-**Note:** Ensure compatibility between package versions, Python version (e.g., Python 3.10), and CUDA version if using GPU acceleration.
+**Note:** Ensure compatibility between package versions, Python version (e.g., Python 3.12), and CUDA version if using GPU acceleration.
 
 ## Preparation
 
