@@ -122,9 +122,7 @@ python main_linprobe.py \
 
 ### End-to-End Fine-Tuning
 
-To perform end-to-end fine-tuning, use the same script `main_linprobe.py` without freezing the encoder layers.
-
-Run:
+To perform end-to-end fine-tuning, run:
 
 ```bash
 python main_linprobe.py \
