@@ -27,7 +27,9 @@ If you use this repository or the MMAE model in your work, please cite:
 
 Below is the architecture of the MMAE model:
 
-<img src="figs/arch.png" alt="Model Architecture" width="600"/>
+<img src="figs/graphical_abstract.png" alt="Model Architecture" width="600"/>
+
+<img src="figs/pretrain_process.gif" alt="Model Architecture" width="600"/>
 
 ## Reconstruction Example
 
