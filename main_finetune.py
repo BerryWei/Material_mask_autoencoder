@@ -131,7 +131,7 @@ def get_args_parser():
                         help='Use class token instead of global pool for classification')
 
     # Dataset parameters
-    parser.add_argument('--data_path', default=r'D:\2d_composite_mesh_generator\circle_valid', type=str,
+    parser.add_argument('--data_path', default=r'D:\dataset\downstream_circular_inclusion', type=str,
                         help='dataset path')
     parser.add_argument('--nb_classes', default=1, type=int,
                         help='number of the classification types')

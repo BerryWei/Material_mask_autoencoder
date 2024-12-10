@@ -5,6 +5,24 @@
 This repository contains the code and instructions for training and evaluating the Masked Material Autoencoder (MMAE) as described in the paper "Foundation Model for Composite Materials Using Masked Autoencoders". The MMAE is used for self-supervised pre-training on composite material microstructures and then fine-tuned or used in linear probing for downstream tasks such as predicting homogenized stiffness components.
 
 
+**Citation**  
+If you use this repository or the MMAE model in your work, please cite:
+
+```bibtex
+@article{mmae2024,
+  title={Foundation Model for Composite Materials Using Masked Autoencoders},
+  author={Your Name, Co-Author Name, etc.},
+  journal={Journal of Computational Materials Science},
+  volume={XX},
+  number={X},
+  pages={XX--XX},
+  year={2024},
+  publisher={Elsevier},
+  doi={10.1016/j.commatsci.xxxx.xxxx}
+}
+```
+
+
 ## Architecture
 
 Below is the architecture of the MMAE model:
