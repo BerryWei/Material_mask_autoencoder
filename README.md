@@ -9,16 +9,11 @@ This repository contains the code and instructions for training and evaluating t
 If you use this repository or the MMAE model in your work, please cite:
 
 ```bibtex
-@article{mmae2024,
-  title={Foundation Model for Composite Materials Using Masked Autoencoders},
-  author={Your Name, Co-Author Name, etc.},
-  journal={Journal of Computational Materials Science},
-  volume={XX},
-  number={X},
-  pages={XX--XX},
-  year={2024},
-  publisher={Elsevier},
-  doi={10.1016/j.commatsci.xxxx.xxxx}
+@article{wei2024foundation,
+  title={Foundation Model for Composite Materials and Microstructural Analysis},
+  author={Wei, Ting-Ju and Chuin-Shan Chen},
+  journal={arXiv preprint arXiv:2411.06565},
+  year={2024}
 }
 ```
 
