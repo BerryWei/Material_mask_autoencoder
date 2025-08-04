@@ -1,4 +1,4 @@
-# MMAE: Foundation Model for Composite Materials and Microstructural Analysis
+# MMAE: Foundation model for composite microstructures
 
 ## Overview
 
